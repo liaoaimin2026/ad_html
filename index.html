@@ -2,38 +2,142 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 标准手机H5全屏适配 -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>广告播放页</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>手机H5广告挂机</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
         body{
             background:#000;
             min-height:100vh;
             color:#fff;
-            font-family:Arial,sans-serif;
+            font-family:system-ui,"Microsoft Yahei",sans-serif;
             text-align:center;
+            padding:15px;
+            overflow-x:hidden;
         }
-        .ad-top, .ad-bottom{
+        .ad-top{
             width:100%;
-            min-height:60px;
             display:flex;
             align-items:center;
             justify-content:center;
-            margin: 10px 0;
+            margin:20px 0;
         }
-        .ad-top iframe, .ad-bottom iframe {
-            border: none;
-            max-width: 100%;
+        .ad-top iframe{
+            border:none;
+            width:100%;
+            max-width:100%;
         }
         .content{
-            padding:20px;
-            color:#999;
-            font-size:14px;
+            padding:30px 15px;
+            color:#ccc;
+            font-size:15px;
+            line-height:1.8;
+        }
+        .count-box{
+            font-size:22px;
+            color:#42b983;
+            margin:25px 0;
+            font-weight:bold;
         }
         .tips{
             color:#666;
             font-size:12px;
+            position:fixed;
+            bottom:20px;
+            left:0;
+            width:100%;
+        }
+        h3{
+            font-size:18px;
+            margin-bottom:10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部广告位 手机自适应宽度 -->
+    <div class="ad-top">
+        <script>
+          atOptions = {
+            'key' : 'f44ac887ae0ad661a2c851e5042f8ad2',
+            'format' : 'iframe',
+            'height' : 60,
+            'width' : 468,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highperformanceformat.com/f44ac887ae0ad661a2c851e5042f8ad2/invoke.js"></script>
+    </div>
+
+    <div class="content">
+        <h3>📱 手机H5挂机模式已开启</h3>
+        <div class="count-box">剩余时间：<span id="countdown"></span> 秒</div>
+        <p>自动静音所有广告视频</p>
+        <p>时间到自动刷新页面</p>
+        <p>可后台挂起、可最小化</p>
+    </div>
+
+    <div class="tips">手机专用H5 · 稳定静默挂机</div>
+
+<script>
+// ==========自定义配置区==========
+const stayTime = 900; // 自动刷新秒数 默认15分钟
+// ==============================
+
+let leftTime = stayTime;
+// 倒计时展示
+let timer = setInterval(()=>{
+    leftTime--;
+    document.getElementById("countdown").innerText = leftTime;
+},1000);
+
+// 定时自动刷新
+setTimeout(()=>{
+    window.location.reload();
+}, stayTime * 1000);
+
+// 全部视频广告强制静音+自动播放
+document.addEventListener('DOMContentLoaded', function(){
+    let allVideo = document.querySelectorAll('video');
+    allVideo.forEach(vid=>{
+        vid.muted = true;
+        vid.autoplay = true;
+        vid.loop = true;
+        vid.volume = 0;
+    });
+});
+
+// 禁用右键
+document.oncontextmenu = function(){return false;};
+
+// 限制F5刷新
+let lastRefreshTime = 0;
+document.addEventListener('keydown',function(e){
+    if(e.key === 'F5'){
+        let now = Date.now();
+        if(now - lastRefreshTime < 5000){
+            e.preventDefault();
+            return false;
+        }
+        lastRefreshTime = now;
+    }
+});
+
+// 切后台修改标题 保持挂机状态
+document.addEventListener('visibilitychange', function(){
+    document.title = document.hidden ? "挂机运行中…" : "手机H5广告挂机";
+});
+</script>
+
+<!-- 底部弹窗广告保留 -->
+<script src="https://pl29329637.profitablecpmratenetwork.com/23/e6/0f/23e60f188dd4875e6ebdd15317925bc1.js"></script>
+
+</body>
+</html>
             padding-bottom:20px;
         }
     </style>
