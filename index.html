@@ -2,12 +2,11 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <!-- 标准手机H5全屏适配 -->
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>手机H5广告挂机</title>
+    <title>手机H5广告挂机-后台保活增强版</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
         body{
@@ -59,7 +58,6 @@
 </head>
 <body>
 
-    <!-- 顶部广告位 手机自适应宽度 -->
     <div class="ad-top">
         <script>
           atOptions = {
@@ -74,33 +72,56 @@
     </div>
 
     <div class="content">
-        <h3>📱 手机H5挂机模式已开启</h3>
+        <h3>📱 手机H5挂机【后台保活增强】</h3>
         <div class="count-box">剩余时间：<span id="countdown"></span> 秒</div>
-        <p>自动静音所有广告视频</p>
-        <p>时间到自动刷新页面</p>
-        <p>可后台挂起、可最小化</p>
+        <p>自动静音广告视频</p>
+        <p>增强后台保活，尽量不暂停</p>
+        <p>安卓后台稳 · iPhone建议前台挂</p>
     </div>
 
-    <div class="tips">手机专用H5 · 稳定静默挂机</div>
+    <div class="tips">手机专用H5 · 后台保活模式已开启</div>
 
 <script>
-// ==========自定义配置区==========
-const stayTime = 900; // 自动刷新秒数 默认15分钟
-// ==============================
-
+// 自定义刷新秒数
+const stayTime = 900;
 let leftTime = stayTime;
-// 倒计时展示
+
+// 倒计时显示
 let timer = setInterval(()=>{
     leftTime--;
     document.getElementById("countdown").innerText = leftTime;
 },1000);
 
-// 定时自动刷新
-setTimeout(()=>{
+// 定时刷新
+function reloadPage(){
     window.location.reload();
-}, stayTime * 1000);
+}
+let reloadTimer = setTimeout(reloadPage, stayTime * 1000);
 
-// 全部视频广告强制静音+自动播放
+// ========== 后台保活核心代码 ==========
+// 利用空白请求+心跳唤醒，减少后台冻结
+setInterval(function(){
+    // 空请求保活
+    fetch('data:text/plain;charset=utf-8,keepalive',{cache:'no-cache'})
+    .catch(e=>{});
+    // 同步校准倒计时
+    if(leftTime <= 0){
+        reloadPage();
+    }
+},3000);
+
+// 页面切回来立刻校准时间
+document.addEventListener('visibilitychange', function(){
+    document.title = document.hidden ? "挂机保活中…" : "手机H5广告挂机";
+    // 切回前台重置定时器
+    if(!document.hidden){
+        clearTimeout(reloadTimer);
+        reloadTimer = setTimeout(reloadPage, leftTime * 1000);
+    }
+});
+// ====================================
+
+// 视频静音处理
 document.addEventListener('DOMContentLoaded', function(){
     let allVideo = document.querySelectorAll('video');
     allVideo.forEach(vid=>{
@@ -111,10 +132,8 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 });
 
-// 禁用右键
+// 禁用右键、防刷新
 document.oncontextmenu = function(){return false;};
-
-// 限制F5刷新
 let lastRefreshTime = 0;
 document.addEventListener('keydown',function(e){
     if(e.key === 'F5'){
@@ -126,14 +145,8 @@ document.addEventListener('keydown',function(e){
         lastRefreshTime = now;
     }
 });
-
-// 切后台修改标题 保持挂机状态
-document.addEventListener('visibilitychange', function(){
-    document.title = document.hidden ? "挂机运行中…" : "手机H5广告挂机";
-});
 </script>
 
-<!-- 底部弹窗广告保留 -->
 <script src="https://pl29329637.profitablecpmratenetwork.com/23/e6/0f/23e60f188dd4875e6ebdd15317925bc1.js"></script>
 
 </body>
