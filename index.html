@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>广告播放页</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
@@ -19,6 +20,11 @@
             display:flex;
             align-items:center;
             justify-content:center;
+            margin: 10px 0;
+        }
+        .ad-top iframe, .ad-bottom iframe {
+            border: none;
+            max-width: 100%;
         }
         .content{
             padding:20px;
@@ -34,7 +40,7 @@
 </head>
 <body>
 
-    <!-- 顶部 Banner 广告位：已嵌入你的代码 -->
+    <!-- 顶部 Banner 广告位：优化了加载方式 -->
     <div class="ad-top">
         <script>
           atOptions = {
@@ -48,15 +54,10 @@
         <script src="https://www.highperformanceformat.com/f44ac887ae0ad661a2c851e5042f8ad2/invoke.js"></script>
     </div>
 
-    <!-- 中间内容：合规必备，不能删除 -->
+    <!-- 中间内容：合规必备 -->
     <div class="content">
         <h3>广告加载中，请稍候...</h3>
         <p>页面每15分钟自动刷新一次，以获取最新广告</p>
-    </div>
-
-    <!-- 底部广告位：可后续添加第二个平台广告 -->
-    <div class="ad-bottom">
-        <!-- 在这里粘贴第二个平台的广告代码 -->
     </div>
 
     <div class="tips">合规挂机 · 请勿点击广告 · 请勿频繁刷新</div>
@@ -68,7 +69,7 @@ setTimeout(function(){
     window.location.reload();
 }, reloadTime * 1000);
 
-// 2. 统一静音自动播放视频广告，提升填充率
+// 2. 统一静音自动播放视频广告
 document.addEventListener('DOMContentLoaded', function(){
     let allVideo = document.querySelectorAll('video');
     allVideo.forEach(vid=>{
@@ -78,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 });
 
-// 3. 限制手动刷新频率，降低风控嫌疑
+// 3. 限制手动刷新频率
 let lastRefreshTime = 0;
 document.addEventListener('keydown',function(e){
     if(e.key === 'F5'){
@@ -92,7 +93,7 @@ document.addEventListener('keydown',function(e){
 });
 </script>
 
-<!-- 已嵌入你的 Adsterra Popunder 广告代码 -->
+<!-- Popunder 广告代码，保留在底部 -->
 <script src="https://pl29329637.profitablecpmratenetwork.com/23/e6/0f/23e60f188dd4875e6ebdd15317925bc1.js"></script>
 
 </body>
