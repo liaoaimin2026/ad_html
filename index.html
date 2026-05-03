@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>广告播放页</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            background:#000;
+            min-height:100vh;
+            color:#fff;
+            font-family:Arial,sans-serif;
+            text-align:center;
+        }
+        .ad-top, .ad-bottom{
+            width:100%;
+            min-height:150px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .content{
+            padding:20px;
+            color:#999;
+            font-size:14px;
+        }
+        .tips{
+            color:#666;
+            font-size:12px;
+            padding-bottom:20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部广告位：粘贴你的第一个广告代码 -->
+    <div class="ad-top">
+        <!-- 在这里粘贴 Adsterra / Monetag 广告代码 -->
+    </div>
+
+    <!-- 中间内容：合规必备，不能删除 -->
+    <div class="content">
+        <h3>广告加载中，请稍候...</h3>
+        <p>页面每15分钟自动刷新一次，以获取最新广告</p>
+    </div>
+
+    <!-- 底部广告位：粘贴你的第二个广告代码 -->
+    <div class="ad-bottom">
+        <!-- 在这里粘贴第二个平台的广告代码 -->
+    </div>
+
+    <div class="tips">合规挂机 · 请勿点击广告 · 请勿频繁刷新</div>
+
+<script>
+// 1. 合规自动刷新：15分钟（900秒）
+const reloadTime = 900;
+setTimeout(function(){
+    window.location.reload();
+}, reloadTime * 1000);
+
+// 2. 统一静音自动播放视频广告，提升填充率
+document.addEventListener('DOMContentLoaded', function(){
+    let allVideo = document.querySelectorAll('video');
+    allVideo.forEach(vid=>{
+        vid.muted = true;
+        vid.autoplay = true;
+        vid.loop = true;
+    });
+});
+
+// 3. 限制手动刷新频率，降低风控嫌疑
+let lastRefreshTime = 0;
+document.addEventListener('keydown',function(e){
+    if(e.key === 'F5'){
+        let now = Date.now();
+        if(now - lastRefreshTime < 3000){
+            e.preventDefault();
+            return false;
+        }
+        lastRefreshTime = now;
+    }
+});
+</script>
+
+</body>
+</html>
