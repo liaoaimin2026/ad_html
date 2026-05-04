@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>稳定版广告挂机-修复倒计时不重置</title>
+    <title>稳定版广告挂机</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
         body{
@@ -68,35 +68,32 @@
     </div>
 
     <div class="text-info">
-        <p>✅ 修复：切后台不重置倒计时</p>
-        <p>✅ 时间戳精准累计计时</p>
-        <p>✅ 前台后台时间统一不回退</p>
+        <p>✅ 时间戳精准计时 不卡顿</p>
+        <p>✅ 自动静音所有广告视频</p>
+        <p>✅ 前台稳定运行 后台尽量保活</p>
     </div>
     <div class="state" id="adState">广告检测中...</div>
 
 <script>
-// 配置：15分钟刷新 可自行修改
+// 配置区：15分钟自动刷新 可自行修改
 const RELOAD_SECOND = 900;
-// 【核心修复】页面一打开就固定初始时间，永远不重置
 const startTimestamp = Date.now();
 
-// 精准计时：只计算流逝时间，不重置起点
+// 精准计时（解决夸克后台倒计时不动）
 function refreshTime(){
     let pass = Math.floor((Date.now() - startTimestamp) / 1000);
     let remain = RELOAD_SECOND - pass;
 
-    if(remain < 0) remain = 0;
     document.getElementById("timeShow").innerText = remain;
 
     if(remain <= 0){
         window.location.reload();
     }
 }
-
+// 高频校准 不卡死
 setInterval(refreshTime, 1000);
-refreshTime();
 
-// 切前台只刷新显示，不重置起始时间【关键修复】
+// 切回前台自动同步时间 修复卡顿
 document.addEventListener("visibilitychange", function(){
     if(!document.hidden){
         refreshTime();
@@ -119,7 +116,7 @@ setTimeout(()=>{
     }
 },2500);
 
-// 全部视频广告强制静音
+// 全部视频广告强制静音防弹窗扰民
 document.addEventListener("DOMContentLoaded",()=>{
     document.querySelectorAll("video").forEach(v=>{
         v.muted = true;
@@ -129,14 +126,14 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
 });
 
-// 延迟加载底部弹窗广告
+// 延迟加载底部弹窗广告（不抢主广告资源、减少拦截）
 setTimeout(()=>{
     let s = document.createElement("script");
     s.src = "https://pl29329637.profitablecpmratenetwork.com/23/e6/0f/23e60f188dd4875e6ebdd15317925bc1.js";
     document.body.appendChild(s);
 },8000);
 
-// 禁用右键
+// 禁用右键防误操作
 document.oncontextmenu = ()=>false;
 </script>
 
