@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>稳定版广告挂机</title>
@@ -24,13 +24,10 @@
             display:flex;
             align-items:center;
             justify-content:center;
-            border-radius:8px;
-            overflow:hidden;
         }
         .ad-box iframe{
             border:none;
             width:100%;
-            max-width:100%;
         }
         .count-down{
             font-size:24px;
@@ -59,7 +56,7 @@
                 'key' : 'f44ac887ae0ad661a2c851e5042f8ad2',
                 'format' : 'iframe',
                 'height' : 60,
-                'width' : 100,
+                'width' : 468,
                 'params' : {}
             };
         </script>
@@ -81,13 +78,11 @@
 // 配置区：15分钟自动刷新 可自行修改
 const RELOAD_SECOND = 900;
 const startTimestamp = Date.now();
-let timer = null;
 
-// 精准计时（解决夸克后台倒计时不动 + 禁止负数）
+// 精准计时（解决夸克后台倒计时不动）
 function refreshTime(){
     let pass = Math.floor((Date.now() - startTimestamp) / 1000);
     let remain = RELOAD_SECOND - pass;
-    remain = Math.max(0, remain); // 修复负数Bug
 
     document.getElementById("timeShow").innerText = remain;
 
@@ -95,48 +90,29 @@ function refreshTime(){
         window.location.reload();
     }
 }
+// 高频校准 不卡死
+setInterval(refreshTime, 1000);
 
-// 统一开启定时器，防止多重堆积
-function startTimer(){
-    clearInterval(timer);
-    timer = setInterval(refreshTime, 1000);
-}
-startTimer();
-refreshTime();
-
-// 切回前台自动同步时间 + 重置定时器防错乱
+// 切回前台自动同步时间 修复卡顿
 document.addEventListener("visibilitychange", function(){
     if(!document.hidden){
         refreshTime();
-        startTimer();
         document.title = "挂机正常运行中";
     }else{
         document.title = "后台挂起中...";
     }
 });
 
-// 【优化】精准广告检测，不再误判拦截广告
+// 广告状态检测
 setTimeout(()=>{
     let iframe = document.querySelector(".ad-box iframe");
     let tip = document.getElementById("adState");
-
-    if(!iframe){
-        tip.innerText = "❌ 广告脚本未加载";
+    if(iframe){
+        tip.innerText = "✅ Banner广告正常加载";
+        tip.style.color = "#4cd964";
+    }else{
+        tip.innerText = "❌ 广告被拦截，请关闭广告过滤";
         tip.style.color = "#ff5555";
-        return;
-    }
-    try{
-        let style = getComputedStyle(iframe);
-        if(style.display === "none" || style.visibility === "hidden" || Number(style.opacity) < 0.2){
-            tip.innerText = "❌ 广告被浏览器拦截";
-            tip.style.color = "#ff5555";
-        }else{
-            tip.innerText = "✅ Banner广告正常加载";
-            tip.style.color = "#4cd964";
-        }
-    }catch(e){
-        tip.innerText = "⚠️ 广告跨域，以实际显示为准";
-        tip.style.color = "#ffaa00";
     }
 },2500);
 
@@ -154,9 +130,6 @@ document.addEventListener("DOMContentLoaded",()=>{
 setTimeout(()=>{
     let s = document.createElement("script");
     s.src = "https://pl29329637.profitablecpmratenetwork.com/23/e6/0f/23e60f188dd4875e6ebdd15317925bc1.js";
-    s.onerror = function(){
-        console.log("底部广告加载失败");
-    };
     document.body.appendChild(s);
 },8000);
 
