@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+    <title>闯关小游戏 - 看广告复活</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            background:#1a1a1a;
+            color:#fff;
+            font-family:"Microsoft Yahei",sans-serif;
+            text-align:center;
+            padding:30px 15px;
+        }
+        .game-container{
+            background:#2a2a2a;
+            border-radius:15px;
+            padding:30px 20px;
+            margin-bottom:20px;
+        }
+        h2{
+            color:#ffd700;
+            margin-bottom:20px;
+            font-size:22px;
+        }
+        .game-desc{
+            color:#ccc;
+            font-size:16px;
+            line-height:1.8;
+            margin-bottom:30px;
+        }
+        .btn-resume{
+            background:#ffd700;
+            color:#000;
+            border:none;
+            font-size:18px;
+            font-weight:bold;
+            padding:14px 35px;
+            border-radius:10px;
+            cursor:pointer;
+        }
+        .btn-resume:disabled{
+            background:#555;
+            color:#aaa;
+            cursor:not-allowed;
+        }
+        .ad-area{
+            width:100%;
+            margin:25px 0;
+            display:none;
+            border:1px solid #444;
+            border-radius:8px;
+            padding:10px;
+        }
+        .ad-area iframe{
+            width:100%;
+            border:none;
+        }
+        .reward-tip{
+            color:#4cd964;
+            font-size:15px;
+            margin-top:20px;
+            display:none;
+        }
+        .safety-note{
+            color:#888;
+            font-size:13px;
+            margin-top:15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h2>🎮 休闲闯关小游戏</h2>
+        <div class="game-desc">
+            哎呀！闯关失败了！<br>
+            还差最后一步就能通关！<br>
+            观看广告视频，免费复活继续挑战！
+        </div>
+
+        <button class="btn-resume" id="watchAdBtn">观看广告 免费复活</button>
+
+        <!-- 广告区域，默认隐藏 -->
+        <div class="ad-area" id="adContainer">
+            <script>
+                atOptions = {
+                    'key' : 'f44ac887ae0ad661a2c851e5042f8ad2',
+                    'format' : 'iframe',
+                    'height' : 60,
+                    'width' : 100,
+                    'params' : {}
+                };
+            </script>
+            <script src="https://www.highperformanceformat.com/f44ac887ae0ad661a2c851e5042f8ad2/invoke.js"></script>
+        </div>
+
+        <div class="reward-tip" id="rewardMessage">✅ 复活成功！继续闯关吧！</div>
+        <div class="safety-note">合规激励广告模式，自愿观看更安全</div>
+    </div>
+
+<script>
+let adIsLoaded = false;
+const watchBtn = document.getElementById('watchAdBtn');
+
+watchBtn.addEventListener('click', function() {
+    if (adIsLoaded) return;
+    adIsLoaded = true;
+
+    // 显示广告区域
+    document.getElementById('adContainer').style.display = 'block';
+    this.innerText = '广告加载中...';
+    this.disabled = true;
+
+    // 模拟广告观看完成后的奖励提示
+    setTimeout(() => {
+        document.getElementById('rewardMessage').style.display = 'block';
+    }, 6000); // 6秒后显示奖励提示
+});
+</script>
+
+</body>
+</html>
