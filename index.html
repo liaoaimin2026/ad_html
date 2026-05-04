@@ -1,277 +1,125 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>金银花种植技术规范｜长效稳定挂机</title>
+    <title>稳定版广告挂机-修复倒计时不重置</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
         body{
-            background:#F8FBF9;
-            font-family:"Microsoft Yahei",system-ui,sans-serif;
-            color:#2A3B34;
-            line-height:1.7;
-            padding:15px;
-            max-width:900px;
-            margin:0 auto;
-        }
-        .header{
-            background: linear-gradient(135deg,#2E7D32,#4A964E);
+            background:#000;
+            min-height:100vh;
             color:#fff;
-            padding:20px;
-            border-radius:12px;
+            font-family:Arial,sans-serif;
             text-align:center;
-            margin-bottom:20px;
-            box-shadow:0 2px 8px rgba(0,0,0.1);
+            padding:15px;
         }
-        .header h1{
-            font-size:24px;
-            margin-bottom:6px;
-        }
-        .header p{
-            font-size:14px;
-            opacity:0.95;
-        }
-        .ad-container{
+        .ad-box{
             width:100%;
             min-height:70px;
             margin:20px 0;
-            display:block;
-            background:#fff;
-            border:1px solid #E4E7E5;
-            border-radius:10px;
-            padding:10px;
-            overflow:hidden;
-        }
-        .ad-container iframe{
-            display:block;
-            border:none;
-            width:100%;
-            max-width:100%;
-        }
-        .timer-box{
-            background:#fff;
-            border-left:4px solid #2E7D32;
-            padding:18px 20px;
-            border-radius:10px;
-            margin:20px 0;
-            box-shadow:0 1px 5px rgba(0,0,0.06);
+            border:1px solid #222;
             display:flex;
             align-items:center;
-            justify-content:space-between;
-            flex-wrap:wrap;
-            gap:10px;
+            justify-content:center;
         }
-        .timer-title{
-            font-size:16px;
-            color:#333;
-            font-weight:500;
+        .ad-box iframe{
+            border:none;
+            width:100%;
         }
-        .timer-num{
-            font-size:22px;
+        .count-down{
+            font-size:24px;
+            color:#4cd964;
+            margin:30px 0;
             font-weight:bold;
-            color:#2E7D32;
         }
-        .ad-status{
+        .text-info{
+            color:#999;
+            font-size:14px;
+            line-height:1.8;
+        }
+        .state{
+            margin-top:15px;
             font-size:13px;
-            color:#666;
-            margin-top:8px;
-        }
-        .content-card{
-            background:#fff;
-            border-radius:12px;
-            padding:25px;
-            margin-bottom:20px;
-            box-shadow:0 1px 6px rgba(0,0,0.05);
-        }
-        .content-card h2{
-            color:#2E7D32;
-            font-size:20px;
-            margin-bottom:15px;
-            padding-bottom:8px;
-            border-bottom:1px solid #E4E7E5;
-        }
-        .content-card h3{
-            color:#3D5A45;
-            font-size:17px;
-            margin:16px 0 10px;
-        }
-        .content-card p{
-            font-size:15px;
-            color:#333;
-            margin-bottom:10px;
-            text-align:justify;
-        }
-        .content-card ul{
-            padding-left:22px;
-            margin-bottom:12px;
-        }
-        .content-card li{
-            font-size:15px;
-            color:#333;
-            margin-bottom:6px;
-        }
-        .footer{
-            text-align:center;
-            font-size:13px;
-            color:#888;
-            padding:20px 0;
+            color:#ccc;
         }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>金银花标准化种植与高产管理技术</h1>
-    <p>专业种植指南｜田间管理｜病虫害防治｜采收加工全流程</p>
-</div>
+    <!-- 顶部Banner广告 优先加载 -->
+    <div class="ad-box">
+        <script>
+            atOptions = {
+                'key' : 'f44ac887ae0ad661a2c851e5042f8ad2',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+            };
+        </script>
+        <script src="https://www.highperformanceformat.com/f44ac887ae0ad661a2c851e5042f8ad2/invoke.js"></script>
+    </div>
 
-<div class="ad-container">
-    <script>
-        atOptions = {
-            'key' : 'f44ac887ae0ad661a2c851e5042f8ad2',
-            'format' : 'iframe',
-            'height' : 60,
-            'width' : 468,
-            'params' : {}
-        };
-    </script>
-    <script src="https://www.highperformanceformat.com/f44ac887ae0ad661a2c851e5042f8ad2/invoke.js"></script>
-</div>
+    <div class="count-down">
+        剩余挂机时间：<span id="timeShow">900</span> 秒
+    </div>
 
-<div class="timer-box">
-    <div class="timer-title">系统稳定运行计时</div>
-    <div class="timer-num">剩余刷新时间：<span id="timeShow">900</span> 秒</div>
-    <div class="ad-status" id="adState">广告加载状态检测中...</div>
-</div>
-
-<div class="content-card">
-    <h2>一、品种选择与适宜种植环境</h2>
-    <p>金银花为忍冬科多年生半常绿缠绕灌木，适应性极强、耐旱耐寒、耐贫瘠，我国南北大部分区域均可种植，经济寿命可达15～20年。</p>
-    <h3>优选高产品种</h3>
-    <ul>
-        <li>北花一号：花期集中、花蕾肥大、产量高，适合规模化大田种植</li>
-        <li>巨花一号：生长势强、抗病性好，一年可集中采收4～5茬</li>
-        <li>四季金银花：花期持续时间长，管理简便，适合散户与庭院种植</li>
-    </ul>
-    <h3>环境要求</h3>
-    <ul>
-        <li>光照：喜光植物，每日光照不低于6小时，光照充足则花蕾饱满、药效高</li>
-        <li>土壤：土层深厚、疏松肥沃、排水良好的沙壤土最佳，pH值6.0～7.5为宜</li>
-        <li>温度：耐寒性强，-20℃可安全越冬，适宜生长温度15～28℃</li>
-    </ul>
-</div>
-
-<div class="content-card">
-    <h2>二、规范化育苗与定植技术</h2>
-    <h3>1. 育苗方式</h3>
-    <p>金银花以扦插育苗为主，成活率高、成本低、生长速度快。春季3～4月或秋季8～9月为最佳扦插期，选取健壮无病害的一年生枝条，剪成15～20cm插穗，蘸生根粉后插入苗床，保持土壤湿润，25～30天即可生根。</p>
-    <h3>2. 大田定植</h3>
-    <ul>
-        <li>定植时间：春季土壤解冻后至萌芽前，或秋季落叶后</li>
-        <li>定植密度：大田种植行距1.5～2m，株距1～1.2m，每亩定植300～400株</li>
-        <li>定植方法：挖30cm×30cm定植坑，每坑施腐熟农家肥5kg+复合肥0.1kg，种苗放入后回填压实，浇透定根水</li>
-    </ul>
-</div>
-
-<div class="content-card">
-    <h2>三、全年田间管理核心技术</h2>
-    <h3>1. 水肥管理</h3>
-    <p>金银花耐旱怕涝，雨季必须及时排水，防止烂根死苗。每年施肥3次：春季萌芽前施催芽肥，花期前施促花肥，秋季落叶后施越冬肥，以有机肥为主、复合肥为辅，避免偏施氮肥导致徒长。</p>
-    <h3>2. 整形修剪</h3>
-    <p>修剪是金银花高产的关键。定植后培养主干，保留3～4个主枝，形成直立伞状树冠，改善通风透光条件。每年花期结束后、冬季休眠期各重剪一次，剪除病弱枝、徒长枝、重叠枝，促进新枝萌发，提高下年产量。</p>
-    <h3>3. 中耕除草</h3>
-    <p>每年中耕除草3～4次，保持土壤疏松，减少杂草争肥争水，中耕时避免伤根，提高植株抗病能力。</p>
-</div>
-
-<div class="content-card">
-    <h2>四、病虫害绿色综合防治</h2>
-    <p>金银花常见病害为白粉病、叶斑病，常见虫害为蚜虫、红蜘蛛、天牛，优先采用农业防治、物理防治，减少农药使用，保证药材品质。</p>
-    <ul>
-        <li>白粉病：发病初期喷施石硫合剂或三唑酮，7天一次，连喷2次</li>
-        <li>蚜虫/红蜘蛛：使用苦参碱、吡虫啉低毒药剂，重点喷施叶片背面</li>
-        <li>天牛：人工捕捉成虫，毒杀蛀干幼虫，剪除受害枝条集中销毁</li>
-    </ul>
-</div>
-
-<div class="content-card">
-    <h2>五、采收与标准化加工技术</h2>
-    <h3>1. 采收时期</h3>
-    <p>金银花最佳采收期为花蕾膨大呈青白色、尚未开放时，此时有效成分含量最高、品质最佳。采收选择晴天上午进行，随采随加工，避免堆放发热变色。</p>
-    <h3>2. 加工方法</h3>
-    <ul>
-        <li>烘干法：规模化种植首选，控温40～60℃阶梯烘干，色泽好、品相高</li>
-        <li>晾晒法：晴天摊薄晾晒，避免翻动，晒干后密封防潮储存</li>
-    </ul>
-    <p>加工完成后分级包装，可作为中药材、茶饮原料销售，经济效益稳定。</p>
-</div>
-
-<div class="footer">
-    金银花种植技术文档｜长效稳定运行版 &copy; 农业种植技术规范
-</div>
+    <div class="text-info">
+        <p>✅ 修复：切后台不重置倒计时</p>
+        <p>✅ 时间戳精准累计计时</p>
+        <p>✅ 前台后台时间统一不回退</p>
+    </div>
+    <div class="state" id="adState">广告检测中...</div>
 
 <script>
+// 配置：15分钟刷新 可自行修改
 const RELOAD_SECOND = 900;
+// 【核心修复】页面一打开就固定初始时间，永远不重置
 const startTimestamp = Date.now();
-let timer = null;
 
+// 精准计时：只计算流逝时间，不重置起点
 function refreshTime(){
     let pass = Math.floor((Date.now() - startTimestamp) / 1000);
     let remain = RELOAD_SECOND - pass;
-    remain = Math.max(0, remain);
+
+    if(remain < 0) remain = 0;
     document.getElementById("timeShow").innerText = remain;
+
     if(remain <= 0){
         window.location.reload();
     }
 }
 
-// 初始化定时器
-function startTimer(){
-    clearInterval(timer);
-    timer = setInterval(refreshTime, 1000);
-}
-startTimer();
+setInterval(refreshTime, 1000);
 refreshTime();
 
-// 切后台优化
+// 切前台只刷新显示，不重置起始时间【关键修复】
 document.addEventListener("visibilitychange", function(){
     if(!document.hidden){
         refreshTime();
-        startTimer();
-        document.title = "金银花种植技术｜运行中";
+        document.title = "挂机正常运行中";
     }else{
         document.title = "后台挂起中...";
     }
 });
 
-// 精准广告检测
+// 广告状态检测
 setTimeout(()=>{
-    const iframe = document.querySelector(".ad-container iframe");
-    const tip = document.getElementById("adState");
-    if(!iframe){
-        tip.innerText = "❌ 广告脚本未加载";
+    let iframe = document.querySelector(".ad-box iframe");
+    let tip = document.getElementById("adState");
+    if(iframe){
+        tip.innerText = "✅ Banner广告正常加载";
+        tip.style.color = "#4cd964";
+    }else{
+        tip.innerText = "❌ 广告被拦截，请关闭广告过滤";
         tip.style.color = "#ff5555";
-        return;
-    }
-    try{
-        let style = getComputedStyle(iframe);
-        if(style.display === "none" || style.visibility === "hidden" || parseFloat(style.opacity) < 0.2){
-            tip.innerText = "❌ 广告被浏览器拦截";
-            tip.style.color = "#ff5555";
-        }else{
-            tip.innerText = "✅ Banner广告正常展示";
-            tip.style.color = "#2E7D32";
-        }
-    }catch(e){
-        tip.innerText = "⚠️ 广告跨域，以实际显示为准";
-        tip.style.color = "#f59e0b";
     }
 },2500);
 
-// 视频静音处理
+// 全部视频广告强制静音
 document.addEventListener("DOMContentLoaded",()=>{
     document.querySelectorAll("video").forEach(v=>{
         v.muted = true;
@@ -280,6 +128,16 @@ document.addEventListener("DOMContentLoaded",()=>{
         v.loop = true;
     });
 });
+
+// 延迟加载底部弹窗广告
+setTimeout(()=>{
+    let s = document.createElement("script");
+    s.src = "https://pl29329637.profitablecpmratenetwork.com/23/e6/0f/23e60f188dd4875e6ebdd15317925bc1.js";
+    document.body.appendChild(s);
+},8000);
+
+// 禁用右键
+document.oncontextmenu = ()=>false;
 </script>
 
 </body>
