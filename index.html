@@ -2,167 +2,139 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>夸克优化版-手机H5挂机</title>
+    <title>稳定版广告挂机</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
         body{
             background:#000;
             min-height:100vh;
             color:#fff;
-            font-family:system-ui,"Microsoft Yahei",sans-serif;
+            font-family:Arial,sans-serif;
             text-align:center;
             padding:15px;
-            overflow-x:hidden;
         }
-        .ad-top{
+        .ad-box{
             width:100%;
+            min-height:70px;
+            margin:20px 0;
+            border:1px solid #222;
             display:flex;
             align-items:center;
             justify-content:center;
-            margin:20px 0;
-            min-height:60px;
-            border:1px solid #222;
         }
-        .ad-top iframe{
+        .ad-box iframe{
             border:none;
             width:100%;
-            max-width:100%;
         }
-        .content{
-            padding:30px 15px;
-            color:#ccc;
-            font-size:15px;
-            line-height:1.8;
-        }
-        .count-box{
-            font-size:22px;
-            color:#42b983;
-            margin:25px 0;
+        .count-down{
+            font-size:24px;
+            color:#4cd964;
+            margin:30px 0;
             font-weight:bold;
         }
-        .tips{
-            color:#666;
-            font-size:12px;
-            position:fixed;
-            bottom:20px;
-            left:0;
-            width:100%;
+        .text-info{
+            color:#999;
+            font-size:14px;
+            line-height:1.8;
         }
-        h3{
-            font-size:18px;
-            margin-bottom:10px;
-        }
-        .ad-status{
+        .state{
+            margin-top:15px;
             font-size:13px;
-            color:#aaa;
-            margin-top:10px;
+            color:#ccc;
         }
     </style>
 </head>
 <body>
 
-    <div class="ad-top">
+    <!-- 顶部Banner广告 优先加载 -->
+    <div class="ad-box">
         <script>
-          atOptions = {
-            'key' : 'f44ac887ae0ad661a2c851e5042f8ad2',
-            'format' : 'iframe',
-            'height' : 60,
-            'width' : 468,
-            'params' : {}
-          };
+            atOptions = {
+                'key' : 'f44ac887ae0ad661a2c851e5042f8ad2',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+            };
         </script>
         <script src="https://www.highperformanceformat.com/f44ac887ae0ad661a2c851e5042f8ad2/invoke.js"></script>
     </div>
 
-    <div class="content">
-        <h3>📱 夸克优化版-挂机中</h3>
-        <div class="count-box">剩余时间：<span id="countdown"></span> 秒</div>
-        <p>自动静音广告视频 | 增强后台保活</p>
-        <p>已优化广告加载逻辑，减少拦截</p>
-        <div class="ad-status" id="adStatus">广告加载状态：检测中...</div>
+    <div class="count-down">
+        剩余挂机时间：<span id="timeShow">900</span> 秒
     </div>
 
-    <div class="tips">请保持页面前台亮屏运行，后台可能被系统限制</div>
+    <div class="text-info">
+        <p>✅ 时间戳精准计时 不卡顿</p>
+        <p>✅ 自动静音所有广告视频</p>
+        <p>✅ 前台稳定运行 后台尽量保活</p>
+    </div>
+    <div class="state" id="adState">广告检测中...</div>
 
 <script>
-// ========== 自定义配置 ==========
-const stayTime = 900; // 15分钟自动刷新
-let startTime = Date.now();
-let leftTime = stayTime;
+// 配置区：15分钟自动刷新 可自行修改
+const RELOAD_SECOND = 900;
+const startTimestamp = Date.now();
 
-// 1. 更稳定的倒计时（基于时间戳校准，防止后台冻结）
-function updateCountdown() {
-    const elapsed = Math.floor((Date.now() - startTime) / 1000);
-    leftTime = stayTime - elapsed;
-    if (leftTime <= 0) {
+// 精准计时（解决夸克后台倒计时不动）
+function refreshTime(){
+    let pass = Math.floor((Date.now() - startTimestamp) / 1000);
+    let remain = RELOAD_SECOND - pass;
+
+    document.getElementById("timeShow").innerText = remain;
+
+    if(remain <= 0){
         window.location.reload();
     }
-    document.getElementById("countdown").innerText = leftTime;
 }
-// 每秒更新倒计时
-setInterval(updateCountdown, 1000);
+// 高频校准 不卡死
+setInterval(refreshTime, 1000);
 
-// 2. 后台保活+时间校准
-document.addEventListener('visibilitychange', function(){
-    document.title = document.hidden ? "挂机保活中…" : "夸克优化版-手机H5挂机";
-    // 切回前台立刻校准时间
+// 切回前台自动同步时间 修复卡顿
+document.addEventListener("visibilitychange", function(){
     if(!document.hidden){
-        startTime = Date.now();
-        updateCountdown();
+        refreshTime();
+        document.title = "挂机正常运行中";
+    }else{
+        document.title = "后台挂起中...";
     }
 });
 
-// 3. 广告加载状态检测
-setTimeout(() => {
-    const iframe = document.querySelector('.ad-top iframe');
-    const statusEl = document.getElementById('adStatus');
-    if(iframe && iframe.contentDocument && iframe.contentDocument.body.innerHTML.trim() !== ''){
-        statusEl.innerText = "广告加载状态：✅ 正常";
-        statusEl.style.color = "#42b983";
-    } else {
-        statusEl.innerText = "广告加载状态：❌ 未加载，建议刷新或检查拦截设置";
-        statusEl.style.color = "#ff6b6b";
+// 广告状态检测
+setTimeout(()=>{
+    let iframe = document.querySelector(".ad-box iframe");
+    let tip = document.getElementById("adState");
+    if(iframe){
+        tip.innerText = "✅ Banner广告正常加载";
+        tip.style.color = "#4cd964";
+    }else{
+        tip.innerText = "❌ 广告被拦截，请关闭广告过滤";
+        tip.style.color = "#ff5555";
     }
-}, 3000);
+},2500);
 
-// 4. 视频广告强制静音+自动播放
-document.addEventListener('DOMContentLoaded', function(){
-    let allVideo = document.querySelectorAll('video');
-    allVideo.forEach(vid=>{
-        vid.muted = true;
-        vid.autoplay = true;
-        vid.loop = true;
-        vid.volume = 0;
+// 全部视频广告强制静音防弹窗扰民
+document.addEventListener("DOMContentLoaded",()=>{
+    document.querySelectorAll("video").forEach(v=>{
+        v.muted = true;
+        v.volume = 0;
+        v.autoplay = true;
+        v.loop = true;
     });
 });
 
-// 5. 禁用右键、限制频繁刷新
-document.oncontextmenu = function(){return false;};
-let lastRefreshTime = 0;
-document.addEventListener('keydown',function(e){
-    if(e.key === 'F5'){
-        let now = Date.now();
-        if(now - lastRefreshTime < 5000){
-            e.preventDefault();
-            return false;
-        }
-        lastRefreshTime = now;
-    }
-});
-</script>
+// 延迟加载底部弹窗广告（不抢主广告资源、减少拦截）
+setTimeout(()=>{
+    let s = document.createElement("script");
+    s.src = "https://pl29329637.profitablecpmratenetwork.com/23/e6/0f/23e60f188dd4875e6ebdd15317925bc1.js";
+    document.body.appendChild(s);
+},8000);
 
-<!-- 底部广告，保留但优化加载时机 -->
-<script>
-// 延迟加载弹窗广告，避免一开始就被拦截
-setTimeout(() => {
-    const script = document.createElement('script');
-    script.src = "https://pl29329637.profitablecpmratenetwork.com/23/e6/0f/23e60f188dd4875e6ebdd15317925bc1.js";
-    document.body.appendChild(script);
-}, 5000);
+// 禁用右键防误操作
+document.oncontextmenu = ()=>false;
 </script>
 
 </body>
