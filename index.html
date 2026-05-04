@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>金银花种植技术规范｜长效稳定挂机</title>
@@ -34,7 +35,6 @@
             font-size:14px;
             opacity:0.95;
         }
-        /* 广告位样式优化 */
         .ad-container{
             width:100%;
             min-height:70px;
@@ -50,6 +50,7 @@
             display:block;
             border:none;
             width:100%;
+            max-width:100%;
         }
         .timer-box{
             background:#fff;
@@ -128,7 +129,6 @@
     <p>专业种植指南｜田间管理｜病虫害防治｜采收加工全流程</p>
 </div>
 
-<!-- 已替换成你可用的真实广告代码 -->
 <div class="ad-container">
     <script>
         atOptions = {
@@ -214,50 +214,64 @@
 </div>
 
 <script>
-// 配置：15分钟刷新
 const RELOAD_SECOND = 900;
-// 时间戳精准计时，切后台不重置
 const startTimestamp = Date.now();
+let timer = null;
 
 function refreshTime(){
     let pass = Math.floor((Date.now() - startTimestamp) / 1000);
     let remain = RELOAD_SECOND - pass;
-
-    if(remain < 0) remain = 0;
+    remain = Math.max(0, remain);
     document.getElementById("timeShow").innerText = remain;
-
     if(remain <= 0){
         window.location.reload();
     }
 }
 
-setInterval(refreshTime, 1000);
+// 初始化定时器
+function startTimer(){
+    clearInterval(timer);
+    timer = setInterval(refreshTime, 1000);
+}
+startTimer();
 refreshTime();
 
-// 切前台只刷新显示，不重置起始时间
+// 切后台优化
 document.addEventListener("visibilitychange", function(){
     if(!document.hidden){
         refreshTime();
+        startTimer();
         document.title = "金银花种植技术｜运行中";
     }else{
         document.title = "后台挂起中...";
     }
 });
 
-// 广告状态检测
+// 精准广告检测
 setTimeout(()=>{
-    let iframe = document.querySelector(".ad-container iframe");
-    let tip = document.getElementById("adState");
-    if(iframe){
-        tip.innerText = "✅ Banner广告正常加载";
-        tip.style.color = "#2E7D32";
-    }else{
-        tip.innerText = "❌ 广告被拦截，请关闭广告过滤";
+    const iframe = document.querySelector(".ad-container iframe");
+    const tip = document.getElementById("adState");
+    if(!iframe){
+        tip.innerText = "❌ 广告脚本未加载";
         tip.style.color = "#ff5555";
+        return;
+    }
+    try{
+        let style = getComputedStyle(iframe);
+        if(style.display === "none" || style.visibility === "hidden" || parseFloat(style.opacity) < 0.2){
+            tip.innerText = "❌ 广告被浏览器拦截";
+            tip.style.color = "#ff5555";
+        }else{
+            tip.innerText = "✅ Banner广告正常展示";
+            tip.style.color = "#2E7D32";
+        }
+    }catch(e){
+        tip.innerText = "⚠️ 广告跨域，以实际显示为准";
+        tip.style.color = "#f59e0b";
     }
 },2500);
 
-// 全部视频广告强制静音
+// 视频静音处理
 document.addEventListener("DOMContentLoaded",()=>{
     document.querySelectorAll("video").forEach(v=>{
         v.muted = true;
@@ -266,16 +280,6 @@ document.addEventListener("DOMContentLoaded",()=>{
         v.loop = true;
     });
 });
-
-// 延迟8秒加载底部第二广告
-setTimeout(()=>{
-    let s = document.createElement("script");
-    s.src = "https://pl29329637.profitablecpmratenetwork.com/23/e6/0f/23e60f188dd4875e6ebdd15317925bc1.js";
-    document.body.appendChild(s);
-},8000);
-
-// 禁用右键
-document.oncontextmenu = ()=>false;
 </script>
 
 </body>
