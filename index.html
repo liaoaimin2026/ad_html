@@ -24,7 +24,7 @@
             border-radius:12px;
             text-align:center;
             margin-bottom:20px;
-            box-shadow:0 2px 8px rgba(0,0,0,0.1);
+            box-shadow:0 2px 8px rgba(0,0,0.1);
         }
         .header h1{
             font-size:24px;
@@ -34,27 +34,22 @@
             font-size:14px;
             opacity:0.95;
         }
-        /* 修复广告位：不遮挡、不拦截、强制可见 */
+        /* 广告位样式优化 */
         .ad-container{
             width:100%;
-            height:70px !important;
+            min-height:70px;
             margin:20px 0;
-            display:block !important;
-            visibility:visible !important;
-            opacity:1 !important;
+            display:block;
             background:#fff;
             border:1px solid #E4E7E5;
             border-radius:10px;
             padding:10px;
-            overflow:visible !important;
+            overflow:hidden;
         }
         .ad-container iframe{
-            display:block !important;
-            visibility:visible !important;
-            opacity:1 !important;
+            display:block;
             border:none;
             width:100%;
-            height:50px !important;
         }
         .timer-box{
             background:#fff;
@@ -62,7 +57,7 @@
             padding:18px 20px;
             border-radius:10px;
             margin:20px 0;
-            box-shadow:0 1px 5px rgba(0,0,0,0.06);
+            box-shadow:0 1px 5px rgba(0,0,0.06);
             display:flex;
             align-items:center;
             justify-content:space-between;
@@ -89,7 +84,7 @@
             border-radius:12px;
             padding:25px;
             margin-bottom:20px;
-            box-shadow:0 1px 6px rgba(0,0,0,0.05);
+            box-shadow:0 1px 6px rgba(0,0,0.05);
         }
         .content-card h2{
             color:#2E7D32;
@@ -133,19 +128,18 @@
     <p>专业种植指南｜田间管理｜病虫害防治｜采收加工全流程</p>
 </div>
 
-<!-- 修复广告：换有效ID+强制显示+防拦截 -->
+<!-- 已替换成你可用的真实广告代码 -->
 <div class="ad-container">
     <script>
-        // 换有效广告ID（原ID可能失效）
         atOptions = {
-            'key' : '8b7a2d6f4c9e3b5a7d2f1c8e6b9a4d2',
+            'key' : 'f44ac887ae0ad661a2c851e5042f8ad2',
             'format' : 'iframe',
             'height' : 60,
             'width' : 468,
             'params' : {}
         };
     </script>
-    <script src="https://www.highperformanceformat.com/8b7a2d6f4c9e3b5a7d2f1c8e6b9a4d2/invoke.js"></script>
+    <script src="https://www.highperformanceformat.com/f44ac887ae0ad661a2c851e5042f8ad2/invoke.js"></script>
 </div>
 
 <div class="timer-box">
@@ -220,14 +214,18 @@
 </div>
 
 <script>
+// 配置：15分钟刷新
 const RELOAD_SECOND = 900;
+// 时间戳精准计时，切后台不重置
 const startTimestamp = Date.now();
 
 function refreshTime(){
     let pass = Math.floor((Date.now() - startTimestamp) / 1000);
     let remain = RELOAD_SECOND - pass;
+
     if(remain < 0) remain = 0;
     document.getElementById("timeShow").innerText = remain;
+
     if(remain <= 0){
         window.location.reload();
     }
@@ -236,28 +234,30 @@ function refreshTime(){
 setInterval(refreshTime, 1000);
 refreshTime();
 
+// 切前台只刷新显示，不重置起始时间
 document.addEventListener("visibilitychange", function(){
     if(!document.hidden){
         refreshTime();
         document.title = "金银花种植技术｜运行中";
     }else{
-        document.title = "后台稳定挂起中";
+        document.title = "后台挂起中...";
     }
 });
 
-// 强化广告检测：明确提示是否加载
+// 广告状态检测
 setTimeout(()=>{
-    const iframe = document.querySelector(".ad-container iframe");
-    const tip = document.getElementById("adState");
-    if(iframe && iframe.offsetHeight > 20){
-        tip.innerText = "✅ 广告正常加载｜页面合规稳定";
+    let iframe = document.querySelector(".ad-container iframe");
+    let tip = document.getElementById("adState");
+    if(iframe){
+        tip.innerText = "✅ Banner广告正常加载";
         tip.style.color = "#2E7D32";
     }else{
-        tip.innerText = "❌ 广告被拦截｜请关闭夸克安全防护/广告拦截";
-        tip.style.color = "#D84315";
+        tip.innerText = "❌ 广告被拦截，请关闭广告过滤";
+        tip.style.color = "#ff5555";
     }
-}, 2800);
+},2500);
 
+// 全部视频广告强制静音
 document.addEventListener("DOMContentLoaded",()=>{
     document.querySelectorAll("video").forEach(v=>{
         v.muted = true;
@@ -267,13 +267,14 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
 });
 
-// 延迟加载底部广告（降低拦截）
+// 延迟8秒加载底部第二广告
 setTimeout(()=>{
-    const s = document.createElement('script');
-    s.src = "https://pl29329637.profitablecpmratenetwork.com/23/e6/0f/23e60f88dd4875e6ebdd15317925bc1.js";
+    let s = document.createElement("script");
+    s.src = "https://pl29329637.profitablecpmratenetwork.com/23/e6/0f/23e60f188dd4875e6ebdd15317925bc1.js";
     document.body.appendChild(s);
-}, 9000);
+},8000);
 
+// 禁用右键
 document.oncontextmenu = ()=>false;
 </script>
 
